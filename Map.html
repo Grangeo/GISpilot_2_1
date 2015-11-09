@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>GISpilot</title>
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<!--[if !IE]> -->
+		<link rel="stylesheet" href="CARARE.css" type="text/css" />
+	<!-- <![endif]-->
+    <!--[if gte IE 7]>
+		<link rel="stylesheet" href="CARAREie.css" type="text/css" />
+	<![endif]-->
+    <script src="OpenLayers-2.12/OpenLayers_test.js" type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+	<script src="Carare.js" type="text/javascript"></script>
+	<script src="http://maps.google.com/maps/api/js?v=3.20&amp;sensor=false&amp;libraries=places" type="text/javascript"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+		var map, layerCarare, layerSearchResult, identifyLayer, geocodeMarkers, geocodeMarkers1, QueryString, searchString, singleSelectSearchResults, userAreaSelect, baseMaps, drawLineControl, markers, initialCenter, mobileDevice, translateURL, cql_filter, cookietext ;
+		var geoserverAllLayer = "MC_Cen4_view";
+		var geoserverCarareCachedLayer = "MC_Cen4_Carare_view";
+		var geoserverLinkedCachedLayer = "MC_Cen4_Linked_view";
+		var geoserverPartageCachedLayer = "MC_Cen4_Partage_view";
+		var geoserverAthenaCachedLayer = "MC_Cen4_Athena_view";
+		var geoserver3DIconsCachedLayer = "MC_Cen4_3DIcons_view";
+		var geoserverPhotographyCachedLayer = "MC_Cen4_Photography_view";
+		var geoserverUserAreaLayer = "MC_Cen4_UserArea";
+		var JSONserviceURL = "serviceEUpostgres/Search.aspx";
+		var translateURL = "/MStranslate/Translate.aspx";				
+		var featureNS = "http://www.postgis.net/";
+		var geoserverLocation = "/geoserver";
+		// Cookie parameters 
+		var cookiename = "cararemapinfo"; 
+		var expiredays = 14;
+		
+		$( document ).ready(function() {		
+			init();
+		});
+		
+		$( window ).unload(function() {
+			try {setCookie();} catch(err) {}		
+		});
+		
+		 $(function() {
+			$( "#userAreaItemPreview" ).draggable();
+			});
+	</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52651013-6', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+    <body>
+                <div id="TitleMenuDiv">              
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+						  <tr style="height: 65px; width: 100%; position: relative; ">
+                            <td><img style="border-width: 0px; height: 65px;" src="img/a_logo_a.jpg" id="Image1" alt="logoa" /></td>                           
+                            <td align="right"><img style="border-width: 0px; height: 65px;" src="img/a_logo_b.jpg" alt="logob" /></td>
+                          </tr> 
+                        </tbody>
+					</table>
+                </div>
+				<div id="top-bar">&nbsp;
+						<input type="radio" name="layer" id="AllCheckbox" onclick="changeLayersVis('AllCheckbox');"/>All
+						<input type="radio" name="layer" id="CarareCheckbox" onclick="changeLayersVis('CarareCheckbox');"/>Carare
+						<input type="radio" name="layer" id="LinkedHeritageCheckbox" onclick="changeLayersVis('LinkedHeritageCheckbox');"/>Linked Heritage
+						<input type="radio" name="layer" id="PartagePlusCheckbox" onclick="changeLayersVis('PartagePlusCheckbox');"/>Partage Plus
+						<input type="radio" name="layer" id="A3DIconsCheckbox" onclick="changeLayersVis('A3DIconsCheckbox');"/>3DIcons
+						<input type="radio" name="layer" id="AthenaPlusCheckbox" onclick="changeLayersVis('AthenaPlusCheckbox');"/>Athena Plus
+						<input type="radio" name="layer" id="PhotographyCheckbox" onclick="changeLayersVis('PhotographyCheckbox');"/>Photography
+						<div id="userAreaTopBar" style="position:relative;top:-20px;left:640px;display:none;"><input type="radio" name="layer" id="UserAreaCheckbox" onclick="changeLayersVis('UserAreaCheckbox');"/>User area</div>
+						
+						<div id="TopBarRightDiv">
+							<a href="http://youtu.be/9vTHH9S_2ws" target="_blank" class="videoButton"><img src="img/gumbVideo.png" style="border: none;" title="Video" alt="video" /></a>
+							<a href="/eCulture15s/Europeana_2_1.aspx" target="carareSearch" class="searchButton"><img src="img/gumbSearch.png" style="border: none;" title="Search" alt="search" /></a>
+							<a href="About.html" target="_blank" class="aboutButton"><img src="img/gumbAbout.png" style="border: none;" title="About"  alt="about" /></a>							
+							<img class="userAreaButton1" id="userAreaButton1" src="img/gumbUserArea.png" style="border: none;" onclick="toggleUserAreaWindow1();" title="User Area 1"  alt="user area" />
+							<img class="userAreaButton2" id="userAreaButton2" src="img/gumbUserMap.png" style="border: none;" onclick="toggleUserAreaWindow2();" title="User Area 2"  alt="user area" />
+						</div>
+				</div> 
+				<div id="map">
+					<div id="loadingIcon" style="position:fixed;left:50%;top:50%;width:124px;height:124px;margin-top:-62px;margin-left:-62px;background:url(img/loading.gif);display:none;z-index:5000;"></div> 
+					<div class="geoparserButton" id="geoparserButton" onclick="toggleGeoparser();" title="Geoparse" style="display:none;background:url(img/geoparserInactive.png);" ></div>
+					<div id="layerSwitcherCont" class="olControlLayerSwitcher" ></div>
+					
+                    <div id="side-bar-right">
+						<div class="filterButton" id="filterButton" onclick="toggleSearch('searchTool');" title="Filter" style="background:url(img/filterInactive.png);" ></div>
+						<div class="worldButton" onclick="restoreOriginalConfig();" title="Show all features"></div>
+						<div id="layerSwitcherButton" class="layerSwitcherButton" onclick="customLayerSwitcher();" title="Change base map"></div>
+						<div class="legendButton" id="legendButton" onclick="toggleLegend('legendDiv');" title="Spatial Accuracy" style="background:url(img/legendInactive.png);" ></div>
+						<div class="drawLineButton" id="drawLineButton" onclick="toggledrawLine();" title="Draw a Path" style="background:url(img/drawLineInactive.png);" ></div>
+						<div class="findLocationButton" id="findLocationButton" onclick="toggleFindLocation();" title="Find" style="background:url(img/findLocationInactive.png);" ></div>
+						<div id="google-SVButton" class="google-SVButton" onclick="toggleGoogleSVPegman();" title="Show Google Street view"></div>
+						<div class="updateLocationButton" id="updateLocationButton" onclick="toggleUpdateUserAreaLocation();" title="Update UserArea location" style="background:url(img/updateInactive.png);" ></div>
+						<div id="captureButtons" style="display:none">
+							<div class="individualButton" id="individualButton" onclick="toggleShareSelect('point');" title="Select single centroid" style="background:url(img/individualInactive.png);"></div>
+							<div class="circleButton" id="circleButton" onclick="toggleShareSelect('circle');" title="Select single centroid" style="background:url(img/circleInactive.png);"></div>
+							<div class="pathButton" id="pathButton" onclick="toggleShareSelect('path');" title="Select along a path" style="background:url(img/pathInactive.png);"></div>
+							<div class="frameButton" id="frameButton" onclick="toggleShareSelect('frame');" title="Select multiple centroids" style="background:url(img/frameInactive.png);"></div>				
+						</div>
+						<div id="panZoomCont" title="Change magnification"></div> 					
+					</div> 
+				</div>
+				<div id="userAreaItemPreview"></div> 
+				<div id="google-map">
+					<div onclick="showGoogleMap(0);" style="cursor:pointer;z-index:5000;position:absolute;right:10px;top:30px;" ><img src="img/close.gif" style="border: none;" title="Close Google Maps"  alt="close" />&nbsp;Close</div>
+					<iframe id="googlemapiframe" name="googlemapiframe" src="" style="width:100%;height:100%;border:none;"></iframe>
+				</div>
+				<div class="bottom-bar"><img src="img/ICT_eculturelab.png" style="border: none;"  alt="nottom bar" /></div>
+				<div class="searchTool" id="searchTool" style="display:none;">
+					<div class="searchToolText">
+						<a></a>
+					</div>
+					<div class="searchToolInput">
+						<div style="position:absolute;top:10px;left:5px;"><input id="multilingual" type="checkbox"/>multilingual</div><br />
+						 <select id="searchByParameter">
+						  <option value="title">By title</option>
+						  <option value="allfields">By all fields</option>
+						</select> 
+						<input type="text" id="searchText1" value="" size="15" title="Search" onkeypress="handleKeyPress(event,this.form);"/><img src="img/runSearch.png" onclick="addSearchResults(document.getElementById('searchText1').value.toLowerCase(), true);"  alt="running..." />
+					</div>
+					<div id="searchingDiv" style="display:none">
+						<img id="searching" src="img/searching_old.gif" width="24" height="24" alt="searching" />
+					</div>
+					<div id="searchingResult" class="searchingResult" style="display:none;">
+					</div>
+				</div>
+				<div class="findLocation" id="findLocation" style="display:none;">
+					<div class="locationInput">
+						<input type="text" id="locationInputField" value="" size="33" title="Search" />
+						<!--<img id="setLocationButton" title="Geocode" src="img/drawLineInactive.png" onclick="toggleDrawPoint();" style="display:none;position:absolute;right:9px;top:9px;" ></img> -->
+					</div>
+					
+				</div>
+				<div id="UserArea" style="display:none;">
+					<div style="margin:0px;">
+						<div><iframe id='UserAreaGridView' name='gridview' src='UserArea/Collection.aspx' style="width:100%;height:570px;border:none;"></iframe></div>
+					</div>
+					<div class="bottom-bar"><img src="img/ICT_eculturelab.png" style="border: none;"  alt="bottom_bar" /></div>
+				</div>
+				<div class="legendDiv" id="legendDiv" style="display:none;">
+					<div class="searchToolText">
+						<a>Spatial Accuracy</a>
+					</div>
+					<div>
+						<img src="img/geoserver-GetLegendGraphic.png" width="94" height="60" alt="searching" />
+					</div>
+				</div>
+				<div id="alertDiv" style="position: absolute; top:50%;left:50%;margin-top:-30px;margin-left:-90px;background-color: #f1f1f1;height:60px;width: 180px;padding: 10px;color: black;border: #000000 2px dashed;display: none;">Turn on your GPS to use this function.<br /><button type="button" onclick="document.getElementById('alertDiv').style.display = 'none';">Close</button> </div>
+				<div id="permalinkDiv" style="z-index:5000;position: absolute; top:50%;left:50%;margin-top:0px;margin-left:-200px;background-color: #ffffff;width: 400px;padding: 10px;color: black;border: #000000 2px dashed;display: none;word-wrap:break-word;"><div onclick="document.getElementById('permalinkDiv').style.display = 'none';" style="cursor:pointer;z-index:5000;position:absolute;right:10px;top:10px;" ><img src="img/close.gif" style="border: none;" title="Close" alt="close" /></div>PERMALINK:<br/><br/><div id="permalinkURI"></div><br /></div>
+				<input id="mapExtent" type="hidden" name="mapExtent" value="5"> 
+	</body>
+</html>

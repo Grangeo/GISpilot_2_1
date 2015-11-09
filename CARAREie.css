@@ -1,0 +1,484 @@
+html, body {
+height: 100%;
+overflow: hidden;
+padding: 0px;
+margin: 0px;
+}
+div.olControlAttribution {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+}
+div.olControlScaleLine {
+	position: fixed;
+	font-family: Verdana;
+	font-size: 0.7em;
+	bottom: 20px;
+	left: 20px;
+}
+#map {
+    position: fixed;
+    top: 85px;
+    bottom: 17px;
+    left: 0px;
+    width: 100%;
+}
+#top-bar {
+	position:fixed;	
+	width:  100%;
+	height: 20px;	
+	z-index: 2012; 
+	background-image: url(img/pasica2.jpg);
+	background-repeat: repeat-x;
+}
+.bottom-bar {
+	position:fixed;
+	bottom: 0px;	
+	width:  100%;	
+	z-index: 2012; 
+	background-image: url(img/pasica2.jpg);
+	background-repeat: repeat-x;
+	font-family: Arial,sans-serif; 
+	font-size: 0.9em; 
+	font-style: italic; 
+	color: rgb(68, 68, 68); 
+	direction: ltr; 
+	text-align: center; 
+}
+#popup_contentDiv {
+	overflow:hidden !important;
+}
+#side-bar-right {
+	position:fixed;
+	right: 0px;
+	top: 85px;	
+	width: 40px;	
+	height: 100%;
+	z-index: 2000; 
+	background-image: url(img/bg-right.png);
+}
+.olControlLayerSwitcher .layersDiv {
+    border-radius: 10px 0 0 10px !important;
+    opacity: 0.75 !important;
+    filter: alpha(opacity=75) !important;
+}
+div.olControlMousePosition {
+  bottom: 15px !important;
+  right: 45px !important;
+}
+.olLayerGoogleCopyright {
+    left: 2px;
+    bottom: 2px;
+}
+.olLayerGooglePoweredBy {
+    left: 2px;
+    bottom: 15px;   
+	display: none;
+}
+
+.olControlLayerSwitcher {
+	visibility: hidden;
+	z-index: 2001 !important;
+    position: absolute;
+    top: 58px !important;
+    right: 110px !important;
+    width: 100px !important;
+    font-family: sans-serif;
+    font-weight: bold;
+    margin-top: 3px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    font-size: smaller;
+    color: black !important;
+    background-color: transparent;
+}
+
+.olControlLayerSwitcher .layersDiv {
+    padding-top: 5px;
+    padding-left: 10px ;
+    padding-bottom: 5px;
+    padding-right: 75px ;
+    background-color: white !important;
+    width: 150px !important;
+    height: 100%;
+}
+
+.olControlLayerSwitcher .layersDiv .baseLbl,
+.olControlLayerSwitcher .layersDiv .dataLbl {
+    margin-top: 3px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
+
+.olControlLayerSwitcher .layersDiv .baseLayersDiv,
+.olControlLayerSwitcher .layersDiv .dataLayersDiv {
+    padding-left: 10px;
+	width: 140px !important;
+}
+
+.olControlLayerSwitcher .maximizeDiv,
+.olControlLayerSwitcher .minimizeDiv {
+    top: 5px;
+    right: 65px !important;
+}
+
+#TopBarRightDiv {
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    right: -96px;
+	width: 390px;
+}
+.videoButton {
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    left: 0px;
+	width: 68px;	
+	height: 20px;
+}
+.searchButton {
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    left: 68px;
+	width: 68px;	
+	height: 20px;
+}
+.aboutButton {
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    left: 136px;
+	width: 68px;	
+	height: 20px;
+	background-image: url(img/gumbAbout.png);
+}
+.userAreaButton1 {
+	cursor: pointer;
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    left: 196px;
+	width: 100px;	
+	height: 20px;
+}
+.userAreaButton2 {
+	cursor: pointer;
+	position: absolute;
+	z-index: 2001;
+    top: 0px;
+    left: 296px;
+	width: 82px;	
+	height: 20px;
+}
+
+
+.filterButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    top: 5px;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+}
+.worldButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	background-image: url(img/world.png);
+	margin-bottom:13px;
+}
+.layerSwitcherButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px !important;
+	padding-top:-3px;
+	width: 22px;	
+	height: 22px;
+	background-image: url(img/layer-switcher-minimize.png);
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.legendButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-6px;
+}
+.drawLineButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-6px;
+}
+.findLocationButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 9px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-3px;
+}
+.google-mapButton {
+
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	background:url(img/google-mapInactive.png);
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+#google-SVButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	background:url(img/pegmanInactive.png);
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.updateLocationButton {
+	display:none;
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.individualButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.circleButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.pathButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+.frameButton {
+	cursor: default;
+	position: relative;
+	z-index: 2001;
+    left: 8px;
+	width: 22px;	
+	height: 22px;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+#panZoomCont {
+	position:relative !important;
+	z-index: 2001 !important;
+	left: 8px !important;
+	top: 0px !important;
+	margin-bottom:13px;
+	margin-top:-4px;
+}
+#google-map {
+	display:none;
+	z-index: 5001;
+    position: fixed;
+    top: 85px;
+    bottom: 19px;
+    left: 0px;
+    width: 100%;
+}
+#google-SV {
+	display:none;
+	z-index: 1001;
+    position: fixed;
+    top: 85px;
+    bottom: 19px;
+    left: 0px;
+    width: 100%;
+}
+#userAreaItemPreview {
+	display:none;
+	z-index: 1001;
+    position: fixed;
+    top: 85px;
+    left: 0px;
+    width: 250px;
+	background-color: white;
+	opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+.searchTool {
+	z-index: 2001;
+	position: absolute;
+	right:40px;
+	top:125px;
+	width:270px;
+	height:90px;
+	background-color: white;
+	border-radius: 10px 0 0 10px ;
+	opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+.searchToolText {
+	font-family: sans-serif;
+    font-weight: bold;
+	font-size: smaller;
+    color: black;
+	padding-top: 5px;
+	padding-left: 10px;
+}
+.searchToolInput {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+.searchingResult {
+	font-family: sans-serif;
+    font-weight: bold;
+	font-size: smaller;
+    color: black;
+	padding-top: -5px;
+	padding-left: 10px;
+}
+#searchingDiv{
+	padding-top: 8px;
+	padding-left: 10px;
+}
+.legendDiv {
+	z-index: 2001;
+	position: absolute;
+	right:40px;
+	top:341px;
+	width:170px;
+	height:90px;
+	background-color: white;
+	border-radius: 10px 0 0 10px ;
+	opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+#panZoomCont {
+	position:absolute !important;
+	z-index: 2001 !important;
+	right: 33px !important;
+	top: 275px !important;
+}
+
+.olControlPanZoomBar {
+	text-align: right !important;
+    position: absolute !important;
+    top: 124px !important;
+    left: 0px !important;
+}
+div.olControlZoom {
+    visibility: hidden;
+}
+.findLocation {
+	z-index: 1;
+	position: absolute;
+	right:40px;
+	top:420px;
+	width:280px;
+	height:40px;
+	background-color: white;
+	border-radius: 10px 0 0 10px ;
+}
+#UserArea {
+	z-index: 3000;
+	position: absolute;
+	left:0px;
+	top:85px;
+	width:100%;
+	height:100%;
+	background-color: white;
+}
+.locationInput {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+.geoparser {
+	z-index: 1;
+	position: absolute;
+	right:40px;
+	top:460px;
+	width:280px;
+	height:155px;
+	background-color: white;
+	border-radius: 10px 0 0 10px ;
+
+}
+.locationInputGeoparser {
+	padding-top: 10px;
+	padding-left: 10px;
+}
+#geoparsingDiv{
+	padding-top: 10px;
+	padding-left: 0px;
+}
+.formstyle {
+	width: 21em;
+	color:#555555;
+	font-family:Arial;
+	font-size:15px;
+	vertical-align: top;
+	
+}
+.formButton {
+	background-color:#ededed;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	border:1px solid #c9c9c9;
+	display:inline-block;
+	cursor:pointer;
+	color:#555555;
+	font-family:Arial;
+	font-size:15px;
+	padding:5px 28px;
+	text-decoration:none;
+}
+.formButton:hover {
+	background-color:#cfcfcf;
+}
+.formButton:active {
+	position:relative;
+	top:1px;
+}
